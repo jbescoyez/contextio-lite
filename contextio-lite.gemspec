@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require File.expand_path('../lib/contextio', __FILE__)
+require "contextio/version"
 
 Gem::Specification.new do |spec|
   spec.name          = 'contextio-lite'
-  spec.version       = ContextIO.version
+  spec.version       = ContextIO::VERSION
   spec.authors       = ['Javier Juan']
   spec.email         = ['javier@promivia.com']
   spec.summary       = %q{Provides interface to Context.IO Lite API}
