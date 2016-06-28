@@ -205,11 +205,16 @@ module ContextIO
 			#   error-describing String. Otherwise, nil.
 			def determine_best_error_message(parsed_body)
 				return unless parsed_body.respond_to?(:[])
+				parsed_body = parsed_body.first if parsed_body.is_a?(Array)
+				return unless parsed_body.respond_to?(:has_key?)
 
-				if parsed_body['type'] == 'error'
-					return parsed_body['value']
-				elsif parsed_body.has_key?('success') && !parsed_body['success']
-					return [parsed_body['feedback_code'], parsed_body['connectionLog']].compact.join("\n")
+				if parsed_body.fetch('type', nil) == 'error'
+					return parsed_body.fetch('value', nil)
+				elsif parsed_body.has_key?('success') && !parsed_body.fetch('success', nil)
+					return [
+						parsed_body.fetch('feedback_code', ''),
+						parsed_body.fetch('connectionLog', '')
+					].compact.join("\n")
 				end
 			end
 		end
