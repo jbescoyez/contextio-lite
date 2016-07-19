@@ -91,8 +91,8 @@ module ContextIO
         "users/#{attachment.message.folder.email_account.user.id}/email_accounts/#{uri_encode attachment.message.folder.email_account.label}/folders/#{uri_encode attachment.message.folder.name}/messages/#{encode_message_id attachment.message.message_id}/attachments/#{attachment.attachment_id}"
       end
 
-      def self.encode_message_id message_id
-        URI.encode message_id, '/@'
+      def self.encode_message_id(message_id)
+        URI.encode message_id, '/@+='
       end
 
       def self.uri_encode(param)
