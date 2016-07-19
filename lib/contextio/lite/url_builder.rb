@@ -71,7 +71,7 @@ module ContextIO
       end
 
       register_url ContextIO::Lite::Message do |message|
-        "users/#{message.folder.email_account.user.id}/email_accounts/#{uri_encode message.folder.email_account.label}/folders/#{uri_encode message.folder.name}/messages/#{uri_encode message.message_id}"
+        "users/#{message.folder.email_account.user.id}/email_accounts/#{uri_encode message.folder.email_account.label}/folders/#{uri_encode message.folder.name}/messages/#{encode_message_id message.message_id}"
       end
 
 
@@ -84,16 +84,20 @@ module ContextIO
       end
 
       register_url ContextIO::Lite::AttachmentCollection do |attachments|
-        "users/#{attachments.message.folder.email_account.user.id}/email_accounts/#{uri_encode attachments.message.folder.email_account.label}/folders/#{uri_encode attachments.message.folder.name}/messages/#{uri_encode attachments.message.message_id}/attachments"
+        "users/#{attachments.message.folder.email_account.user.id}/email_accounts/#{uri_encode attachments.message.folder.email_account.label}/folders/#{uri_encode attachments.message.folder.name}/messages/#{encode_message_id attachments.message.message_id}/attachments"
       end
 
       register_url ContextIO::Lite::Attachment do |attachment|
-        "users/#{attachment.message.folder.email_account.user.id}/email_accounts/#{uri_encode attachment.message.folder.email_account.label}/folders/#{uri_encode attachment.message.folder.name}/messages/#{uri_encode attachment.message.message_id}/attachments/#{attachment.attachment_id}"
+        "users/#{attachment.message.folder.email_account.user.id}/email_accounts/#{uri_encode attachment.message.folder.email_account.label}/folders/#{uri_encode attachment.message.folder.name}/messages/#{encode_message_id attachment.message.message_id}/attachments/#{attachment.attachment_id}"
+      end
+
+      def self.encode_message_id message_id
+        URI.encode message_id, '/@'
       end
 
       def self.uri_encode(param)
         if param.is_a? String
-          URI.encode param, '/@'
+          URI.encode param
         else
           param
         end
