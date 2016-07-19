@@ -93,7 +93,7 @@ module ContextIO
 
       def self.uri_encode(param)
         if param.is_a? String
-          URI.encode param
+          URI.encode param, '/@'
         else
           param
         end
