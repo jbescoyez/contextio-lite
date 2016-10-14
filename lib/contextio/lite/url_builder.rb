@@ -93,7 +93,8 @@ module ContextIO
 
       def self.encode_message_id(message_id)
         if message_id.is_a? String
-          URI.encode message_id, '/@+='
+          # http://stackoverflow.com/questions/2824126/whats-the-difference-between-uri-escape-and-cgi-escape
+          CGI.escape(message_id)
         else
           message_id
         end
